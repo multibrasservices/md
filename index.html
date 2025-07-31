@@ -71,11 +71,19 @@
             margin-right: 10px;
         }
         .controls button:hover { background-color: #34495e; }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            color: #7f8c8d;
+        }
     </style>
     <!-- Librairies pour Markmap -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+    <link rel="icon" type="image/png" href="mon_logo.png">
 </head>
 <body>
 
@@ -291,8 +299,19 @@ function hello() {
             const downloadMdBtn = document.getElementById('download-md');
             const downloadSvgBtn = document.getElementById('download-svg');
 
+            // --- Auto-Save Feature ---
+            // Load saved content from localStorage on startup
+            const savedMarkdown = localStorage.getItem('markdownContent');
+            if (savedMarkdown) {
+                textarea.value = savedMarkdown;
+            }
+
             const updateMindmap = () => {
-                const { root } = transformer.transform(textarea.value);
+                const markdown = textarea.value;
+                // Save content to localStorage on every update
+                localStorage.setItem('markdownContent', markdown);
+                // Transform and render the mindmap
+                const { root } = transformer.transform(markdown);
                 mm.setData(root);
             };
 
@@ -320,6 +339,10 @@ function hello() {
             updateMindmap(); // Initial render
         });
     </script>
+
+    <footer>
+        <p>&copy; 2025 MultiBrasServices - Tous droits réservés.</p>
+    </footer>
 
 </body>
 </html>
