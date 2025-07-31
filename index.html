@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre le Markdown : De la Note à la Mind Map</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        h1 { text-align: center; border-bottom: none; }
+        .container { display: flex; gap: 20px; margin-top: 30px; }
+        .container > div:first-child { flex: 2; }
+        .container > div:last-child { flex: 3; }
+        #markdown-input {
+            width: 100%;
+            height: 700px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        #mindmap { width: 100%; height: 700px; border: 1px solid #bdc3c7; border-radius: 5px; background: #fff; }
+        .example {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .example h3 { grid-column: 1 / -1; margin-top: 0; }
+        .syntax, .result { padding: 10px; border-radius: 5px; }
+        .syntax { background-color: #ecf0f1; }
+        .result { border: 1px dashed #ccc; }
+        code {
+            background-color: #e8eaed;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        pre { background-color: #ecf0f1; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        blockquote { border-left: 4px solid #7f8c8d; padding-left: 15px; color: #555; font-style: italic; }
+        .controls {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .controls button {
+            padding: 8px 15px;
+            border: 1px solid #2c3e50;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .controls button:hover { background-color: #34495e; }
+    </style>
+    <!-- Librairies pour Markmap -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+</head>
+<body>
+
+    <h1>Apprendre le Markdown Simplement</h1>
+    <p>Le Markdown est un langage simple pour formater du texte. Il est facile à lire, à écrire et se transforme proprement en HTML. C'est l'outil parfait pour prendre des notes, écrire de la documentation ou même organiser vos idées.</p>
+
+    <h2>Référence Rapide</h2>
+
+    <div class="example">
+        <h3>Titres</h3>
+        <div class="syntax">
+            <pre><code># Titre de niveau 1
+## Titre de niveau 2
+### Titre de niveau 3</code></pre>
+        </div>
+        <div class="result">
+            <h1>Titre de niveau 1</h1>
+            <h2>Titre de niveau 2</h2>
+            <h3>Titre de niveau 3</h3>
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Styles de texte</h3>
+        <div class="syntax">
+            <pre><code>*Texte en italique*
+**Texte en gras**
+~~Texte barré~~</code></pre>
+        </div>
+        <div class="result">
+            <em>Texte en italique</em><br>
+            <strong>Texte en gras</strong><br>
+            <del>Texte barré</del>
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Listes</h3>
+        <div class="syntax">
+            <pre><code>* Pommes
+* Oranges
+  * Jus d'orange
+1. Premier élément
+2. Deuxième élément</code></pre>
+        </div>
+        <div class="result">
+            <ul>
+                <li>Pommes</li>
+                <li>Oranges
+                    <ul><li>Jus d'orange</li></ul>
+                </li>
+            </ul>
+            <ol>
+                <li>Premier élément</li>
+                <li>Deuxième élément</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Liens et Images</h3>
+        <div class="syntax">
+            <pre><code>[Visitez Markmap.js](https://markmap.js.org/)
+
+![Logo Markmap](logo.PNG)</code></pre>
+        </div>
+        <div class="result">
+            <a href="https://markmap.js.org/" target="_blank">Visitez Markmap.js</a><br><br>
+            <img src="logo.PNG" alt="Logo Markmap" style="vertical-align: middle;"> Logo Markmap
+        </div>
+    </div>
+    
+    <div class="example">
+        <h3>Citations et Code</h3>
+        <div class="syntax">
+            <pre><code>> "La simplicité est la sophistication suprême."
+> - Léonard de Vinci
+
+Utilisez `console.log()` pour afficher du texte.
+
+```javascript
+function hello() {
+  console.log("Hello, World!");
+}
+```</code></pre>
+        </div>
+        <div class="result">
+            <blockquote>
+                <p>"La simplicité est la sophistication suprême."</p>
+                <footer>- Léonard de Vinci</footer>
+            </blockquote>
+            <p>Utilisez <code>console.log()</code> pour afficher du texte.</p>
+            <pre><code>function hello() {
+  console.log("Hello, World!");
+}</code></pre>
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Tableaux</h3>
+        <div class="syntax">
+            <pre><code>| Colonne 1 | Colonne 2 |
+|-----------|-----------|
+| Cellule 1 | Cellule 2 |
+| Cellule 3 | Cellule 4 |</code></pre>
+        </div>
+        <div class="result">
+            <table style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Colonne 1</th>
+                        <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Colonne 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #ccc; padding: 8px;">Cellule 1</td>
+                        <td style="border: 1px solid #ccc; padding: 8px;">Cellule 2</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ccc; padding: 8px;">Cellule 3</td>
+                        <td style="border: 1px solid #ccc; padding: 8px;">Cellule 4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="example">
+        <h3>Liste de Tâches</h3>
+        <div class="syntax">
+            <pre><code>- [x] Tâche terminée
+- [ ] Tâche à faire</code></pre>
+        </div>
+        <div class="result">
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li><input type="checkbox" checked disabled> Tâche terminée</li>
+                <li><input type="checkbox" disabled> Tâche à faire</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Bonnes Pratiques pour une Mind Map Efficace</h2>
+    <ul>
+        <li><strong>Un seul titre principal (<code>#</code>) :</strong> Votre mind map aura un point central clair.</li>
+        <li><strong>Hiérarchisez logiquement :</strong> Utilisez les titres (<code>##</code>, <code>###</code>) pour les grandes idées et les listes (<code>-</code>, <code>*</code>) pour les détails.</li>
+        <li><strong>Soyez concis :</strong> Des phrases courtes sont plus faciles à lire sur une mind map.</li>
+        <li><strong>Utilisez le gras (<code>**gras**</code>) :</strong> Mettez en évidence les mots-clés importants dans vos branches.</li>
+    </ul>
+
+    <h2>Du Markdown à la Mind Map : La Magie de la Visualisation</h2>
+    <p>La vraie puissance du Markdown, c'est sa structure. En utilisant les titres (<code>#</code>, <code>##</code>, etc.) et les listes, vous créez une hiérarchie naturelle. Cette hiérarchie peut être transformée instantanément en une <strong>mind map (carte mentale)</strong>, un outil d'apprentissage et de brainstorming formidable.</p>
+    <p>Essayez vous-même ! Modifiez le texte à gauche et voyez la mind map se mettre à jour en temps réel à droite.</p>
+
+    <div style="margin-top: 25px; margin-bottom: 25px; background: #fff; padding: 1px 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        <h3>Bonus : C'est quoi le format SVG ?</h3>
+        <p>Le format SVG (<strong>S</strong>calable <strong>V</strong>ector <strong>G</strong>raphics) est un format d'image puissant, idéal pour les schémas comme notre mind map. Voici pourquoi :</p>
+        <ul>
+            <li><strong>Qualité parfaite :</strong> Vous pouvez l'agrandir autant que vous voulez, l'image restera toujours parfaitement nette, sans jamais devenir "pixelisée".</li>
+            <li><strong>Fichier léger :</strong> Pour des graphiques, il est souvent plus petit en taille qu'un fichier PNG ou JPEG.</li>
+            <li><strong>Modifiable :</strong> C'est un format ouvert basé sur du texte. Vous pourriez techniquement l'ouvrir dans un éditeur et changer une couleur ou un mot en modifiant le code.</li>
+        </ul>
+        <p>En téléchargeant votre mind map en SVG, vous obtenez un fichier de haute qualité, parfait pour vos présentations ou vos notes.</p>
+    </div>
+
+    <div class="controls">
+        <button id="download-md">Télécharger .md</button>
+        <button id="download-svg">Télécharger .svg</button>
+    </div>
+
+    <div class="container">
+        <div>
+            <h3>Votre Markdown</h3>
+            <textarea id="markdown-input">
+# Mon Plan d'Apprentissage
+
+## Langages de Programmation
+- **Frontend**
+  - HTML
+  - CSS
+  - JavaScript
+    - React
+    - Vue.js
+- **Backend**
+  - Node.js
+  - Python
+
+## Concepts Clés
+- **Contrôle de version**
+  - Git
+  - GitHub
+- **Bases de données**
+  - SQL
+  - NoSQL
+
+## Projets Personnels
+- Créer un site portfolio
+- Développer une petite application web
+            </textarea>
+        </div>
+        <div>
+            <h3>Votre Mind Map</h3>
+            <svg id="mindmap"></svg>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const { Markmap, Transformer } = window.markmap;
+            const transformer = new Transformer();
+            const mm = Markmap.create('svg#mindmap', null);
+            const textarea = document.getElementById('markdown-input');
+            const downloadMdBtn = document.getElementById('download-md');
+            const downloadSvgBtn = document.getElementById('download-svg');
+
+            const updateMindmap = () => {
+                const { root } = transformer.transform(textarea.value);
+                mm.setData(root);
+            };
+
+            const download = (filename, content, contentType) => {
+                const blob = new Blob([content], { type: contentType });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+                URL.revokeObjectURL(link.href);
+            };
+
+            downloadMdBtn.addEventListener('click', () => {
+                download('mindmap.md', textarea.value, 'text/markdown');
+            });
+
+            downloadSvgBtn.addEventListener('click', () => {
+                const svgEl = document.querySelector('#mindmap');
+                const serializer = new XMLSerializer();
+                const svgString = serializer.serializeToString(svgEl);
+                download('mindmap.svg', svgString, 'image/svg+xml');
+            });
+
+            textarea.addEventListener('input', updateMindmap);
+            updateMindmap(); // Initial render
+        });
+    </script>
+
+</body>
+</html>
